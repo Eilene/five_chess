@@ -1,0 +1,1 @@
+一个五子棋人机对战ai，其中ai为先手，界面用pygame搭建，游戏使用minmax搜索，直接运行gobang.py即可
