@@ -3,7 +3,10 @@ import pygame
 from pygame.locals import *
 from chessboard import *
 from chessboard import  chessai
-LINES_NUM = 14
+from hard import HardAi
+import copy
+
+LINES_NUM = 15
 
 
 class Chess:
@@ -17,7 +20,7 @@ class Chess:
         self.pos_x = int((self.w_width - self.c_size * LINES_NUM) / 2)
         self.pos_y = int((self.w_height - self.c_size * LINES_NUM) / 2)
         self.board = [[0 for i in range(LINES_NUM)] for j in range(LINES_NUM)]
-        self.font = pygame.font.Font(None,24)
+        self.font = pygame.font.Font(r"../chess/client/data/font/title.TTF", 24)
 
     def check_win(self,color):#判断是否产生胜者,在每个棋手下完后，只需要判断当前棋手是否胜利
         #遍历当前棋手下每个子判断是否成功，从上到下，从左到有遍历，则只需要遍历四个方向
@@ -33,7 +36,7 @@ class Chess:
                     for count in range(4):
                         temprow += dir[0]
                         tempcolumn += dir[1]
-                        if(not (temprow>=0 and temprow< LINES_NUM and tempcolumn>=0 and tempcolumn<LINES_NUM)):#越界了
+                        if(not (temprow>=0 and temprow< 15 and tempcolumn>=0 and tempcolumn<15)):#越界了
                             flag = False
                             break
                         if(self.board[temprow][tempcolumn] != color):
@@ -104,6 +107,7 @@ class Game:
 
     def loop(self):
         ai = chessai(1,self.chess.board)
+        ai2 = HardAi()
         test = chessboard()
         test.board = self.chess.board
         clock = pygame.time.Clock()
@@ -114,11 +118,17 @@ class Game:
                 self.chess.step = ai.get_best_step()
                 self.draw()  # 画下棋的位置
             color = self.chess.color
-            while True:
-                pos = self.run()
-                if(pos!= None):
-                    break
-            self.draw()#画下棋的位置
+
+            temp = copy.deepcopy(self.chess.board)
+            self.chess.step = ai2.next(2,temp)
+            self.draw()  # 画下棋的位置
+
+            # print "&****"+str(color)
+            # while True:
+            #     pos = self.run()
+            #     if(pos!= None):
+            #         break
+            # self.draw()#画下棋的位置
             clock.tick(60)
             test.display()
         pygame.quit()

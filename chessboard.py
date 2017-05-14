@@ -1,9 +1,8 @@
 # -*- coding:UTF－8 -*-
 
 #   先写棋盘函数,0代表没有，1黑2白,15*15的棋盘
-LINES_NUM = 14
-Chess_rows = 14
-Chess_columns = 14
+Chess_rows = 15
+Chess_columns = 15
 Live_five = 100000
 Live_four = 10000
 Live_three = 1000
@@ -42,7 +41,7 @@ class chessboard:
                     for count in range(4):
                         temprow += dir[0]
                         tempcolumn += dir[1]
-                        if(not (temprow>=0 and temprow< LINES_NUM and tempcolumn>=0 and tempcolumn<LINES_NUM)):#越界了
+                        if(not (temprow>=0 and temprow< 15 and tempcolumn>=0 and tempcolumn<15)):#越界了
                             flag = False
                             break
                         if(self.board[temprow][tempcolumn] != color):
@@ -72,7 +71,7 @@ class chessai:
                     continue
                 flag = False #标记是否四周有落子
                 for k in self.step:
-                    if((i+k[0])>=0 and (i+k[0])<LINES_NUM and(j+k[1]>=0) and (j+k[1]<LINES_NUM) and self.board[i+k[0]][j+k[1]] != 0):
+                    if((i+k[0])>=0 and (i+k[0])<15 and(j+k[1]>=0) and (j+k[1]<15) and self.board[i+k[0]][j+k[1]] != 0):
                         flag = True
                         break
                 if(flag == False):#四周没有落子，不考虑
